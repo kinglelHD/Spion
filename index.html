@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spion</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <audio id="doorbell" src="assets/doorbell-old-tring.ogg"></audio>
+    <header id="header">
+        <h1>Spion</h1>
+    </header>
+    <main>
+        <section id="menu">
+            <div id="spieler">
+            </div>
+            <input id="spieler-input" placeholder="neuer Spieler" type="text">
+            <button onclick="add_Player()">add Player</button>
+            <label id="imposter-label" for="imposter">Imposter: 0</label>
+            <input value="0" max="0" type="range" name="imposter" id="imposter-input">
+            <button onclick="start_Game()">Spiel starten</button>
+        </section>
+        <section id="game">
+            <div id="step1">
+                <div id="give_div">
+                    <label for="name">Als nächstes:</label>
+                    <p id="name">Test</p>
+                    <p id="info">klicke um deine Rolle zu sehen</p>
+                </div>
+                <div id="role_div">
+                    <label for="name">dein Name ist:</label>
+                    <p id="name">Test</p>
+                    <label for="role">deine Rolle ist:</label>
+                    <p id="role">???</p>
+                    <label for="word">das Wort ist:</label>
+                    <p id="word">???</p>
+                </div>
+            </div>
+            <div id="step2">
+                <p id="timer">2:00</p>
+            </div>
+            <div id="step3"></div>
+        </section>
+    </main>
+    <footer id="footer">
+        <p>Hier steht auch etwas</p>
+    </footer>
+</body>
+</html>
