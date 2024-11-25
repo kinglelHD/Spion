@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spion</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Spion Game" />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+    <link rel="shortcut icon" type="image/png" href="/assets/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
@@ -14,12 +18,26 @@
     </header>
     <main>
         <section id="menu">
-            <div id="spieler">
-            </div>
+            <label for="custom-word-input">Wörter werden aus Platzgründen nicht angezeigt</label>
+            <input id="custom-word-input" placeholder="custom word" type="text">
+            <button onclick="add_word()">add word</button>
+            <form id="words-form">
+                <label for="auto-words">generated Words</label>
+                <input onchange="toggle_max_word()" id="auto-words" name="words" type="radio" checked="checked">
+                <label for="custom-words">custom Words</label>
+                <input onchange="toggle_max_word()" id="custom-words" name="words" type="radio">
+            </form>
+            <label id="max-word-label" for="max-word-lenght">Max Word Lenght</label>
+            <input value="12" id="max-word-lenght" placeholder="max-word-lenght" type="number">
+            <div id="spieler"></div>
             <input id="spieler-input" placeholder="neuer Spieler" type="text">
             <button onclick="add_Player()">add Player</button>
             <label id="imposter-label" for="imposter">Imposter: 0</label>
             <input value="0" max="0" type="range" name="imposter" id="imposter-input">
+            <label for="time">Time</label>
+            <input value="2" type="number" name="time" id="time">
+            <label for="vote-time">Vote-Time</label>
+            <input value="1" type="number" name="vote-time" id="vote-time">
             <button onclick="start_Game()">Spiel starten</button>
         </section>
         <section id="game">
@@ -39,13 +57,15 @@
                 </div>
             </div>
             <div id="step2">
-                <p id="timer">2:00</p>
+                <p id="timer"></p>
             </div>
             <div id="step3"></div>
         </section>
     </main>
     <footer id="footer">
-        <p>Hier steht auch etwas</p>
+        <p>Hinweis:<br>Wörter und Spieler werden auf deinem Gerät gespeichert</p>
+        <br>
+        <button onclick="delete_infos()" id="delete-btn">Alles löschen</button>
     </footer>
 </body>
 </html>

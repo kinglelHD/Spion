@@ -2,6 +2,8 @@ let spieler_input = document.getElementById("spieler-input")
 let imposter_input = document.getElementById("imposter-input")
 let imposter_label = document.getElementById("imposter-label")
 let spieler_div = document.getElementById("spieler")
+let words_form = document.getElementById("words-form")
+let custom_word_input = document.getElementById("custom-word-input")
 let game = document.getElementById("game")
 let menu = document.getElementById("menu")
 let header = document.getElementById("header")
@@ -10,7 +12,12 @@ let step1 = document.getElementById("step1")
 let step2 = document.getElementById("step2")
 let step3 = document.getElementById("step3")
 let doorbell = document.getElementById("doorbell")
-let word = "Baum"
+let max_word_lenght = document.getElementById("max-word-lenght")
+let word = "Es konnte kein Wort generiert werden"
+let custom_words = []
+if (localStorage.getItem('words')) {
+    custom_words = JSON.parse(localStorage.getItem('words'))
+}
 
 function shuffle(array) {
     let currentIndex = array.length
@@ -20,7 +27,7 @@ function shuffle(array) {
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
-  }
+}
 
 let Players = []
 if (localStorage.getItem('players')) {
@@ -86,6 +93,20 @@ spieler_input.addEventListener('keyup', e => {
     }
 })
 
+function add_word() {
+    if (custom_word_input.value != '') {
+        custom_words.push(custom_word_input.value)
+        custom_word_input.value = ''
+        localStorage.setItem('words', JSON.stringify(custom_words))
+    }
+}
+
+custom_word_input.addEventListener('keyup', e => {
+    if (e.key === "Enter") {
+        add_word()
+    }
+})
+
 imposter_input.addEventListener('input', () => {
     imposter_input.value > 1 ? imposter_label.innerText = `Imposters: ${imposter_input.value}` : imposter_label.innerText = `Imposter: ${imposter_input.value}`
 })
@@ -98,6 +119,13 @@ function start_Game() {
         header.style.display = 'none'
         footer.style.display = 'none'
         step2.style.display = 'none'
+        if (document.getElementById('custom-words').checked) {
+            if (custom_words.length > 0) {
+                word = custom_words[Math.floor(Math.random() * custom_words.length)]
+            } else {
+                word = 'Es wurden noch keine Wörter hinzugefügt'
+            }
+        }
         let imposters = imposter_input.value
         shuffle(Players)
         for (let i = 0; i < imposters; i++) {
@@ -131,10 +159,11 @@ function start_Game() {
                 step1.style.display = 'none'
                 step2.style.display = 'block'
                 game.style.pointerEvents = 'none'
-                let min = 2
-                let sec = 0
+                let min = Math.floor(document.getElementById('time').value)
+                let sec = Math.floor((Math.floor(document.getElementById('time').value * 100) / 100 - min) * 100)
                 let zweiteRunde = false
                 let timer = document.getElementById('timer')
+                timer.innerText = `${min}:${sec < 10 ? '0' + sec : sec}`
                 let interval = setInterval(() => {
                     timer.innerText = `${min}:${sec < 10 ? '0' + sec : sec}`
                     if (sec > 0) {
@@ -158,7 +187,9 @@ function start_Game() {
                             step3.innerHTML += '<br><br><button onclick="window.location.reload()">Neue Runde</button><br><br>Das Wort war:<br>' + word
                         } else {
                             zweiteRunde = true
-                            min = 1
+                            min = Math.floor(document.getElementById('vote-time').value)
+                            sec = Math.floor((Math.floor(document.getElementById('vote-time').value * 100) / 100 - min) * 100)
+                            timer.innerText = `${min}:${sec < 10 ? '0' + sec : sec}`
                             doorbell.play()
                             alert('Jetzt könnt ihr voten...')
                         }
@@ -198,10 +229,30 @@ getJSON('https://raw.githubusercontent.com/Jonny-exe/German-Words-Library/master
         while (true) {
             word = data[Math.floor(Math.random() * data.length)]
             console.log(word);
-            if (isUppercase(word) && word.length < 16) {break}
+            
+            if (isUppercase(word) && word.length < (max_word_lenght.value > 4 ? max_word_lenght.value : 4)) {break}
         }
       }
     }
   )
 
   // Credit: https://github.com/Jonny-exe/German-Words-Library/tree/master
+
+function delete_infos() {
+    if (window.confirm('Alles löschen?')) {
+        localStorage.removeItem('players')
+        localStorage.removeItem('words')
+        window.location.reload()
+    }
+}
+
+function toggle_max_word() {
+    !document.getElementById('custom-words').checked ? max_word_lenght.style.display = 'block' : max_word_lenght.style.display = 'none'
+    !document.getElementById('custom-words').checked ? document.getElementById('max-word-label').style.display = 'block' : document.getElementById('max-word-label').style.display = 'none'
+}
+
+toggle_max_word()
+
+max_word_lenght.addEventListener('change', () => {
+    window.location.reload()
+})
