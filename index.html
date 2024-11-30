@@ -18,15 +18,17 @@
     </header>
     <main>
         <section id="menu">
-            <label for="custom-word-input">Wörter werden aus Platzgründen nicht angezeigt</label>
-            <input id="custom-word-input" placeholder="custom word" type="text">
-            <button onclick="add_word()">add word</button>
             <form id="words-form">
                 <label for="auto-words">generated Words</label>
                 <input onchange="toggle_max_word()" id="auto-words" name="words" type="radio" checked="checked">
+                <label for="default-words">default Words</label>
+                <input onchange="toggle_max_word()" id="default-words" name="words" type="radio">
                 <label for="custom-words">custom Words</label>
                 <input onchange="toggle_max_word()" id="custom-words" name="words" type="radio">
             </form>
+            <label id="custom-word-label" for="custom-word-input">Wörter werden aus Platzgründen nicht angezeigt</label>
+            <input id="custom-word-input" placeholder="custom word" type="text">
+            <button id="custom-word-btn" onclick="add_word()">add word</button>
             <label id="max-word-label" for="max-word-lenght">Max Word Lenght</label>
             <input value="12" id="max-word-lenght" placeholder="max-word-lenght" type="number">
             <div id="spieler"></div>

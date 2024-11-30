@@ -1,3 +1,5 @@
+const DEFAULT_WORDS = ["Wald", "Dorf", "Schlucht", "Berg", "Schule", "Feld", "Straße", "Supermarkt", "Spielplatz", "USA", "Bus", "CDU", "SPD", "AFD", "FDP", "Canada", "Italien", "Spanien", "Deutschland", "Frankreich", "Wüste", "Ozean", "Ostsee", "ISS", "U-Boot", "Leuchtturm", "Strand", "Wiese", "Nordpol", "Polizei"]
+
 let spieler_input = document.getElementById("spieler-input")
 let imposter_input = document.getElementById("imposter-input")
 let imposter_label = document.getElementById("imposter-label")
@@ -125,6 +127,8 @@ function start_Game() {
             } else {
                 word = 'Es wurden noch keine Wörter hinzugefügt'
             }
+        } else if (document.getElementById('default-words').checked) {
+            word = DEFAULT_WORDS[Math.floor(Math.random() * DEFAULT_WORDS.length)]
         }
         let imposters = imposter_input.value
         shuffle(Players)
@@ -182,9 +186,12 @@ function start_Game() {
                             step3.innerHTML = 'Spion(e): '
                             imposters.forEach(imposter => {
                                 step3.innerHTML += '<br>'
-                                step3.innerHTML += imposter.name
+                                let name = document.createElement('p')
+                                name.innerText = imposter.name
+                                name.style.color = '#dc143c'
+                                step3.appendChild(name)
                             })
-                            step3.innerHTML += '<br><br><button onclick="window.location.reload()">Neue Runde</button><br><br>Das Wort war:<br>' + word
+                            step3.innerHTML += '<br><br><button onclick="window.location.reload()">Neue Runde</button><br><br>Das Wort war:<br>' + `<p style="color: yellow;">${word}</p>`
                         } else {
                             zweiteRunde = true
                             min = Math.floor(document.getElementById('vote-time').value)
@@ -247,8 +254,11 @@ function delete_infos() {
 }
 
 function toggle_max_word() {
-    !document.getElementById('custom-words').checked ? max_word_lenght.style.display = 'block' : max_word_lenght.style.display = 'none'
-    !document.getElementById('custom-words').checked ? document.getElementById('max-word-label').style.display = 'block' : document.getElementById('max-word-label').style.display = 'none'
+    document.getElementById('auto-words').checked ? max_word_lenght.style.display = 'block' : max_word_lenght.style.display = 'none'
+    document.getElementById('auto-words').checked ? document.getElementById('max-word-label').style.display = 'block' : document.getElementById('max-word-label').style.display = 'none'
+    document.getElementById('custom-words').checked ? document.getElementById('custom-word-input').style.display = 'block' : document.getElementById('custom-word-input').style.display = 'none'
+    document.getElementById('custom-words').checked ? document.getElementById('custom-word-btn').style.display = 'block' : document.getElementById('custom-word-btn').style.display = 'none'
+    document.getElementById('custom-words').checked ? document.getElementById('custom-word-label').style.display = 'block' : document.getElementById('custom-word-label').style.display = 'none'
 }
 
 toggle_max_word()

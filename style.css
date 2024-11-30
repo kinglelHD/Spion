@@ -7,6 +7,7 @@
 
 :root {
     color-scheme: dark;
+    font-size: calc(1vw + 10px);
 }
 
 html {
@@ -47,6 +48,10 @@ input, .player_div {
     background-color: rgb(31, 31, 31);
 }
 
+input, button {
+    font-size: .75rem;
+}
+
 button {
     background-color: forestgreen;
 }
@@ -65,19 +70,20 @@ button:focus {
 
 #spieler {
     display: grid;
-    gap: 1rem;
+    gap: .25rem;
+    justify-content: center;
 }
 
 .player_div {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: .25em;
+    padding: .5em;
     border-radius: 1.2em;
 }
 
 .player_div p {
-    padding: .25em;
+    padding: 1em;
 }
 
 .player_div button {
